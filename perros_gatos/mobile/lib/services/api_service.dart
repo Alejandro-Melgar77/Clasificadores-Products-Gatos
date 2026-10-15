@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import '../models/pet_prediction.dart';
 
@@ -35,10 +35,13 @@ class ApiService {
     final request = http.MultipartRequest('POST', uri);
 
     final bytes = await imageFile.readAsBytes();
+    final fileName = imageFile.name.isNotEmpty ? imageFile.name : 'pet.jpg';
+    final isPng = fileName.toLowerCase().endsWith('.png');
     final multipartFile = http.MultipartFile.fromBytes(
       'file',
       bytes,
-      filename: imageFile.name.isNotEmpty ? imageFile.name : 'pet.jpg',
+      filename: fileName,
+      contentType: isPng ? MediaType('image', 'png') : MediaType('image', 'jpeg'),
     );
     request.files.add(multipartFile);
 

@@ -36,12 +36,17 @@ def health_check():
 
 @app.post("/predict", response_model=PetPredictionResponse)
 async def predict_pet(file: UploadFile = File(...)):
-    if not file.content_type.startswith("image/"):
-        raise HTTPException(status_code=400, detail="El archivo enviado debe ser una imagen.")
-        
     contents = await file.read()
     if len(contents) == 0:
         raise HTTPException(status_code=400, detail="Archivo vacío.")
+        
+    from io import BytesIO
+    from PIL import Image
+    try:
+        with Image.open(BytesIO(contents)) as test_img:
+            test_img.verify()
+    except Exception:
+        raise HTTPException(status_code=400, detail="El archivo enviado no es una imagen válida o está dañado.")
         
     try:
         prediction, label_display, confidence, probabilities, message = pet_classifier_instance.predict(contents)

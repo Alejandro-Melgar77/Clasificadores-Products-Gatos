@@ -66,12 +66,18 @@ async def predict_product(file: UploadFile = File(...)):
     Recibe la fotografía tomada con la cámara nativa del celular.
     Ejecuta inferencia ONNX y retorna la información completa del producto (stock, precio, etc.).
     """
-    if not file.content_type.startswith("image/"):
-        raise HTTPException(status_code=400, detail="El archivo enviado debe ser una imagen (JPEG/PNG/WEBP).")
-        
     contents = await file.read()
     if len(contents) == 0:
         raise HTTPException(status_code=400, detail="Archivo de imagen vacío.")
+        
+    # Validar que sea una imagen decodificable
+    from io import BytesIO
+    from PIL import Image
+    try:
+        with Image.open(BytesIO(contents)) as test_img:
+            test_img.verify()
+    except Exception:
+        raise HTTPException(status_code=400, detail="El archivo enviado no es una imagen válida o está dañado.")
         
     try:
         is_recognized, class_id, confidence, probabilities = classifier_instance.predict(contents)
