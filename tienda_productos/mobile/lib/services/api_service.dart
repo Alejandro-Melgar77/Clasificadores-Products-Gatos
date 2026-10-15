@@ -10,11 +10,8 @@ class ApiService {
   factory ApiService() => _instance;
   ApiService._internal();
 
-  // Default address:
-  // - kIsWeb: http://localhost:8000
-  // - Android emulator: http://10.0.2.2:8000
-  // - Physical device / cloud: customizable in UI
-  String baseUrl = kIsWeb ? 'http://localhost:8000' : 'http://10.0.2.2:8000';
+  // Render production cloud server by default
+  String baseUrl = 'https://api-tienda-productos.onrender.com';
 
   void setBaseUrl(String url) {
     if (url.endsWith('/')) {

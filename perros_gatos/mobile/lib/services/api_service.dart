@@ -9,8 +9,8 @@ class ApiService {
   factory ApiService() => _instance;
   ApiService._internal();
 
-  // Default address for pet service (port 8001)
-  String baseUrl = kIsWeb ? 'http://localhost:8001' : 'http://10.0.2.2:8001';
+  // Render production cloud server by default
+  String baseUrl = 'https://api-perros-gatos.onrender.com';
 
   void setBaseUrl(String url) {
     if (url.endsWith('/')) {
