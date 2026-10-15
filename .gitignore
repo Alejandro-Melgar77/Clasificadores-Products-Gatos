@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# PyTorch checkpoints (we keep ONNX models, discard heavy .pth to save git size)
+*.pth
+*.pt
+
+# Temp downloads
+temp_downloads/
+.pytest_cache/
+
+# Flutter / Dart
+**/android/app/build/
+**/android/.gradle/
+**/.dart_tool/
+**/build/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.pub-cache/
+**/.pub/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
